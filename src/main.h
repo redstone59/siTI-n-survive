@@ -99,23 +99,6 @@ const int itemPrices[28] =
     500
 };
 
-const enum Events
-{
-	Bugs,
-    Rain,
-    Bunny,
-    Bear,
-    Snake,
-    AcidRain,
-    Tornado,
-    Lightning,
-    Zombies,
-    Bats,
-    Ghosts,
-    Meteors,
-    Robots
-};
-
 const enum Disasters
 {
 	BugSwarm,

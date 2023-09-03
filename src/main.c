@@ -22,7 +22,7 @@ void purchasePhase(struct entityInfo *entity)
 
 void survivePhase(struct entityInfo *entity,int day)
 {
-	int i;
+	int i,spawn;
 	for (i=0;i<day;i++)
 	{
 		enum Disasters disaster = Random(day + 1) + ( Random(11) / 10 ) + ( Random(11) / 10 );
@@ -30,9 +30,8 @@ void survivePhase(struct entityInfo *entity,int day)
 		{
 			case BugSwarm:
 			case BugSmall:
-				int bugs;
-				if (disaster == BugSwarm) {bugs = 3 + Random(3) + day / 2;}
-				else {bugs = 10 + Random(3);};
+				if (disaster == BugSwarm) {spawn = 3 + Random(3) + day / 2;}
+				else {spawn = 10 + Random(3);};
 
 				break;
 			case Rain:
@@ -87,9 +86,22 @@ int main(void)
 	uint8_t key = os_GetCSC();
 	uint8_t key_prev;
 
+//restart:
+
 	// Difficulty select screen here
 
-	struct entityInfo player = {99,99,99,100,0,0,0,false,false};
+	struct entityInfo player = 
+	{
+		99, 
+		99,
+		99,
+		100,
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+		0, 
+		0,
+		false,
+		false
+	};
 	int day = 1;
 
 	os_ClrHome();
@@ -100,7 +112,7 @@ int main(void)
 		key = os_GetCSC();
 
 		if (key == key_prev) {continue;}
-		else if (key == sk_Clear) {break;};
+		else if (key == sk_Clear) {goto exit;};
 
 		purchasePhase(&player);
 
@@ -109,6 +121,8 @@ int main(void)
 		player.dollar += 50 * day;
 		day++;
 	};
+
+	//Game over screen logic here
 
 exit:
 

@@ -17,6 +17,6 @@ int SaveGame(struct entityInfo entity, int randomSeed) //Take in game data here
 
     
 
-    ti_close(save);
+    ti_Close(save);
     return 1;
 }
