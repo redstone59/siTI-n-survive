@@ -1,10 +1,23 @@
 #pragma once
 
+#include <stdio.h>
 #include <stdbool.h>
+#include <setjmp.h>
 
-const enum Items //remove later probably
+#include <debug.h>
+#include <ti/screen.h>
+#include <ti/getcsc.h>
+#include <sys/util.h>
+
+#include "saves.c"
+#include "gfx/graphics.c"
+#include "purchase.c"
+#include "survival.c"
+
+#define Random(n) randInt(1,n)
+
+enum Items //remove later probably
 {
-    None,
 	Bandage,
     Water_Bottle,
     Sandwich,
@@ -99,9 +112,41 @@ const int itemPrices[28] =
     500
 };
 
-const enum Disasters
+const int purchaseDurabilities[28] =
 {
-	BugSwarm,
+    1,
+    1,
+    1,
+    3,
+    30,
+    10,
+    50,
+    1,
+    2,
+    1,
+    3,
+    50,
+    2,
+    100,
+    0b11,
+    30,
+    15,
+    1,
+    4,
+    100,
+    8,
+    300,
+    100,
+    500,
+    7,
+    6,
+    100,
+    50
+};
+
+enum Disasters
+{
+    BugSwarm = 1,
     BugSmall,
     Rain,
     Snow,
@@ -109,22 +154,24 @@ const enum Disasters
     Snake,
     Bunny,
     Bear,
-    u1,
-    u2,
+    Lightning,
+    AcidRain,
     Zombie,
     Tornado,
-    u3,
-    u4,
+    Bats,
+    Ghosts,
+    Meteors,
+    Robots
 };
 
 struct entityInfo
 {
-	int health;
+    int health;
     int hunger;
     int thirst;
 
-	int dollar;
-	int itemDurability[28];
+    int dollar;
+    int itemDurability[28];
 
     int hot;
     int cold;
